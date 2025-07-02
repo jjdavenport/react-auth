@@ -1,10 +1,18 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 
-export const LoginForm = () => {
+type LoginProp = {
+  onSubmit: () => void;
+};
+
+export const LoginForm = ({ onSubmit }: LoginProp) => {
   return (
     <>
-      <form className="flex flex-col gap-4 p-4 outline" action="POST">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-4 p-4 outline"
+        action="POST"
+      >
         <div className="flex justify-between">
           <label htmlFor="username">Username</label>
           <Link to="/register">Sign Up</Link>
@@ -18,10 +26,14 @@ export const LoginForm = () => {
   );
 };
 
-export const SignUp = () => {
+export const SignUp = ({ onSubmit }: LoginProp) => {
   return (
     <>
-      <form className="flex flex-col gap-4 p-4 outline" action="POST">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-4 p-4 outline"
+        action="POST"
+      >
         <div className="flex justify-between">
           <label htmlFor="username">Username</label>
           <Link to="/login">Login</Link>

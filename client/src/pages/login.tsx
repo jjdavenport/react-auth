@@ -1,9 +1,10 @@
 import { LoginForm } from "../components/index";
 
 export const Login = () => {
+  const onSubmit = async () => {};
   return (
     <>
-      <LoginForm />
+      <LoginForm onSubmit={onSubmit} />
     </>
   );
 };

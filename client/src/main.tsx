@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router";
-import { Register, Login } from "./pages/index.ts";
+import { Register, Login, Home } from "./pages/index.ts";
 import "./index.css";
 import App from "./App.tsx";
 
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "home",
+        element: <Home />,
       },
     ],
   },
