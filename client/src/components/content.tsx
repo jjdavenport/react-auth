@@ -1,11 +1,21 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 
-type LoginProp = {
-  onSubmit: () => void;
+type LoginProps = {
+  onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
+  valueUser: string;
+  valuePassword: string;
+  onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const LoginForm = ({ onSubmit }: LoginProp) => {
+export const LoginForm = ({
+  onSubmit,
+  valueUser,
+  onChangeUser,
+  valuePassword,
+  onChangePassword,
+}: LoginProps) => {
   return (
     <>
       <form
@@ -17,16 +27,38 @@ export const LoginForm = ({ onSubmit }: LoginProp) => {
           <label htmlFor="username">Username</label>
           <Link to="/register">Sign Up</Link>
         </div>
-        <Input type="text" />
+        <Input value={valueUser} onChange={onChangeUser} type="text" />
         <label htmlFor="password">Password</label>
-        <Input type="password" />
+        <Input
+          value={valuePassword}
+          onChange={onChangePassword}
+          type="password"
+        />
         <Button text="Register" type="submit" />
       </form>
     </>
   );
 };
 
-export const SignUp = ({ onSubmit }: LoginProp) => {
+type SignUpProps = {
+  onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
+  valueConfirm: string;
+  valuePassword: string;
+  valueUser: string;
+  onChangeConfirm: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export const SignUp = ({
+  onSubmit,
+  valueConfirm,
+  valuePassword,
+  valueUser,
+  onChangeConfirm,
+  onChangePassword,
+  onChangeUser,
+}: SignUpProps) => {
   return (
     <>
       <form
@@ -38,11 +70,19 @@ export const SignUp = ({ onSubmit }: LoginProp) => {
           <label htmlFor="username">Username</label>
           <Link to="/login">Login</Link>
         </div>
-        <Input type="text" />
+        <Input value={valueUser} onChange={onChangeUser} type="text" />
         <label htmlFor="password">Password</label>
-        <Input type="password" />
+        <Input
+          value={valuePassword}
+          onChange={onChangePassword}
+          type="password"
+        />
         <label htmlFor="confirm password">Confirm Password</label>
-        <Input type="password" />
+        <Input
+          value={valueConfirm}
+          onChange={onChangeConfirm}
+          type="password"
+        />
         <Button text="Register" type="submit" />
       </form>
     </>
@@ -62,14 +102,21 @@ const Button = ({ text, type }: ButtonProps) => {
   );
 };
 
-type InputProp = {
+type InputProps = {
   type: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const Input = ({ type }: InputProp) => {
+const Input = ({ type, onChange, value }: InputProps) => {
   return (
     <>
-      <input className="p-1 outline" type={type} />
+      <input
+        onChange={onChange}
+        value={value}
+        className="p-1 outline"
+        type={type}
+      />
     </>
   );
 };
