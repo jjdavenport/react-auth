@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SignUp } from "../components/index";
 
 export const Register = () => {
-  const [usernames, setUsernames] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,21 +17,6 @@ export const Register = () => {
     state: false,
     message: "",
   });
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch("/api/register/");
-      const result = await response.json();
-      setUsernames(result);
-      console.log(result);
-    } catch {
-      console.log("error");
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const onSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -101,6 +85,12 @@ export const Register = () => {
         ...prev,
         state: true,
         message: "Password is too short",
+      }));
+    } else if (password !== confirmPassword) {
+      setErrorConfirmPassword((prev) => ({
+        ...prev,
+        state: true,
+        message: "Passwords must match",
       }));
     } else {
       setErrorConfirmPassword((prev) => ({

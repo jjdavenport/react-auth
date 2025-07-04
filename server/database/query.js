@@ -7,14 +7,9 @@ const addAuth = async (username, password) => {
   ]);
 };
 
-const getUsers = async () => {
-  const { rows } = await pool.query("SELECT username FROM users");
-  return rows;
-};
-
 const checkAuth = async () => {
   const { rows } = await pool.query("");
   return rows;
 };
 
-module.exports = { addAuth, getUsers, checkAuth };
+module.exports = { addAuth, checkAuth };
