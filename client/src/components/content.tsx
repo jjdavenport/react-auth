@@ -7,6 +7,16 @@ type LoginProps = {
   valuePassword: string;
   onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  errorUsername: {
+    state: boolean;
+    message: string;
+  };
+  errorPassword: {
+    state: boolean;
+    message: string;
+  };
+  onBlurUsername: () => void;
+  onBlurPassword: () => void;
 };
 
 export const LoginForm = ({
@@ -15,6 +25,10 @@ export const LoginForm = ({
   onChangeUser,
   valuePassword,
   onChangePassword,
+  errorUsername,
+  errorPassword,
+  onBlurPassword,
+  onBlurUsername,
 }: LoginProps) => {
   return (
     <>
@@ -27,13 +41,27 @@ export const LoginForm = ({
           <label htmlFor="username">Username</label>
           <Link to="/register">Sign Up</Link>
         </div>
-        <Input value={valueUser} onChange={onChangeUser} type="text" />
+        <div className="flex flex-col">
+          <Input
+            onBlur={onBlurUsername}
+            error={errorUsername.state}
+            value={valueUser}
+            onChange={onChangeUser}
+            type="text"
+          />
+          {errorUsername.state && <span>{errorUsername.message}</span>}
+        </div>
         <label htmlFor="password">Password</label>
-        <Input
-          value={valuePassword}
-          onChange={onChangePassword}
-          type="password"
-        />
+        <div className="flex flex-col">
+          <Input
+            onBlur={onBlurPassword}
+            error={errorPassword.state}
+            value={valuePassword}
+            onChange={onChangePassword}
+            type="password"
+          />
+          {errorPassword.state && <span>{errorPassword.message}</span>}
+        </div>
         <Button text="Register" type="submit" />
       </form>
     </>
@@ -48,6 +76,21 @@ type SignUpProps = {
   onChangeConfirm: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlurUsername: () => void;
+  onBlurPassword: () => void;
+  onBlurConfirmPassword: () => void;
+  errorUsername: {
+    state: boolean;
+    message: string;
+  };
+  errorPassword: {
+    state: boolean;
+    message: string;
+  };
+  errorConfirmPassword: {
+    state: boolean;
+    message: string;
+  };
 };
 
 export const SignUp = ({
@@ -58,6 +101,12 @@ export const SignUp = ({
   onChangeConfirm,
   onChangePassword,
   onChangeUser,
+  onBlurUsername,
+  onBlurPassword,
+  onBlurConfirmPassword,
+  errorUsername,
+  errorPassword,
+  errorConfirmPassword,
 }: SignUpProps) => {
   return (
     <>
@@ -67,22 +116,45 @@ export const SignUp = ({
         action="POST"
       >
         <div className="flex justify-between">
-          <label htmlFor="username">Username</label>
+          <div>
+            <label htmlFor="username">Username</label>
+          </div>
           <Link to="/login">Login</Link>
         </div>
-        <Input value={valueUser} onChange={onChangeUser} type="text" />
+        <div className="flex flex-col">
+          <Input
+            error={errorUsername.state}
+            onBlur={onBlurUsername}
+            value={valueUser}
+            onChange={onChangeUser}
+            type="text"
+          />
+          {errorUsername.state && <span>{errorUsername.message}</span>}
+        </div>
         <label htmlFor="password">Password</label>
-        <Input
-          value={valuePassword}
-          onChange={onChangePassword}
-          type="password"
-        />
+        <div className="flex flex-col">
+          <Input
+            error={errorPassword.state}
+            onBlur={onBlurPassword}
+            value={valuePassword}
+            onChange={onChangePassword}
+            type="password"
+          />
+          {errorPassword.state && <span>{errorPassword.message}</span>}
+        </div>
         <label htmlFor="confirm password">Confirm Password</label>
-        <Input
-          value={valueConfirm}
-          onChange={onChangeConfirm}
-          type="password"
-        />
+        <div className="flex flex-col">
+          <Input
+            error={errorConfirmPassword.state}
+            onBlur={onBlurConfirmPassword}
+            value={valueConfirm}
+            onChange={onChangeConfirm}
+            type="password"
+          />
+          {errorConfirmPassword.state && (
+            <span>{errorConfirmPassword.message}</span>
+          )}
+        </div>
         <Button text="Register" type="submit" />
       </form>
     </>
@@ -106,15 +178,18 @@ type InputProps = {
   type: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: boolean;
+  onBlur: () => void;
 };
 
-const Input = ({ type, onChange, value }: InputProps) => {
+const Input = ({ type, onChange, value, error, onBlur }: InputProps) => {
   return (
     <>
       <input
+        onBlur={onBlur}
         onChange={onChange}
         value={value}
-        className="p-1 outline"
+        className={`${error ? "outline-red-600" : "outline-black"} p-1 outline`}
         type={type}
       />
     </>

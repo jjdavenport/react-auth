@@ -1,9 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const { checkAuth, addAuth } = require("../database/query");
+const { addAuth, getUsers } = require("../database/query");
 
-router.get("/api/register/", (req, res) => {
-  res.send("hello");
+router.get("/api/register/", async (req, res) => {
+  try {
+    const users = await getUsers();
+    res.json(users);
+    console.log(users);
+  } catch {
+    console.log("errors");
+  }
 });
 
 router.post("/api/login/", async (req, res) => {
