@@ -5,17 +5,13 @@ export const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorUsername, setErrorUsername] = useState({
-    state: false,
-    message: "",
-  });
-  const [errorPassword, setErrorPassword] = useState({
-    state: false,
-    message: "",
-  });
-  const [errorConfirmPassword, setErrorConfirmPassword] = useState({
-    state: false,
-    message: "",
+  const [error, setError] = useState({
+    usernameState: false,
+    usernameMessage: "",
+    passwordState: false,
+    passwordMessage: "",
+    confirmPasswordState: false,
+    confirmPasswordMessage: "",
   });
 
   const onSubmit = async (
@@ -29,17 +25,11 @@ export const Register = () => {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      if (username === usernames) {
-        setErrorUsername((prev) => ({
+      if (input === "") {
+        setError((prev) => ({
           ...prev,
-          state: true,
-          message: "Username is taken",
-        }));
-      } else if (input === "") {
-        setErrorUsername((prev) => ({
-          ...prev,
-          state: true,
-          message: "Username cannot be empty",
+          usernameState: true,
+          usernameMessage: "Username cannot be empty",
         }));
       } else {
         setPassword("");
@@ -53,72 +43,66 @@ export const Register = () => {
 
   const onBlurPassword = () => {
     if (password === "") {
-      setErrorPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "Password cannot be empty",
+        passwordState: true,
+        passwordMessage: "Password cannot be empty",
       }));
     } else if (password.length < 8) {
-      setErrorPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "Password is too short",
+        passwordState: true,
+        passwordMessage: "Password is too short",
       }));
     } else {
-      setErrorPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: false,
-        message: "",
+        passwordState: false,
+        passwordMessage: "",
       }));
     }
   };
 
   const onBlurConfirmPassword = () => {
     if (confirmPassword === "") {
-      setErrorConfirmPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "Confirm password cannot be empty",
+        confirmPasswordState: true,
+        confirmPasswordMessage: "Confirm password cannot be empty",
       }));
     } else if (confirmPassword.length < 8) {
-      setErrorConfirmPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "Password is too short",
+        confirmPasswordState: true,
+        confirmPasswordMessage: "Password is too short",
       }));
     } else if (password !== confirmPassword) {
-      setErrorConfirmPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "Passwords must match",
+        confirmPasswordState: true,
+        confirmPasswordMessage: "Passwords must match",
       }));
     } else {
-      setErrorConfirmPassword((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: false,
-        message: "",
+        confirmPasswordState: false,
+        confirmPasswordMessage: "",
       }));
     }
   };
 
   const onBlurUsername = () => {
-    if (username === usernames) {
-      setErrorUsername((prev) => ({
+    if (username === "") {
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "Username is taken",
-      }));
-    } else if (username === "") {
-      setErrorUsername((prev) => ({
-        ...prev,
-        state: true,
-        message: "Username cannot be blank",
+        usernameState: true,
+        usernameMessage: "Username cannot be blank",
       }));
     } else {
-      setErrorUsername((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: false,
-        message: "",
+        usernameState: false,
+        usernameMessage: "",
       }));
     }
   };
@@ -126,9 +110,7 @@ export const Register = () => {
   return (
     <>
       <SignUp
-        errorUsername={errorUsername}
-        errorPassword={errorPassword}
-        errorConfirmPassword={errorConfirmPassword}
+        error={error}
         onBlurPassword={onBlurPassword}
         onBlurUsername={onBlurUsername}
         onBlurConfirmPassword={onBlurConfirmPassword}

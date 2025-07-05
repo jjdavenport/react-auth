@@ -7,13 +7,11 @@ type LoginProps = {
   valuePassword: string;
   onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  errorUsername: {
-    state: boolean;
-    message: string;
-  };
-  errorPassword: {
-    state: boolean;
-    message: string;
+  error: {
+    usernameState: boolean;
+    usernameMessage: string;
+    passwordState: boolean;
+    passwordMessage: string;
   };
   onBlurUsername: () => void;
   onBlurPassword: () => void;
@@ -25,8 +23,7 @@ export const LoginForm = ({
   onChangeUser,
   valuePassword,
   onChangePassword,
-  errorUsername,
-  errorPassword,
+  error,
   onBlurPassword,
   onBlurUsername,
 }: LoginProps) => {
@@ -44,23 +41,23 @@ export const LoginForm = ({
         <div className="flex flex-col">
           <Input
             onBlur={onBlurUsername}
-            error={errorUsername.state}
+            error={error.usernameState}
             value={valueUser}
             onChange={onChangeUser}
             type="text"
           />
-          {errorUsername.state && <span>{errorUsername.message}</span>}
+          {error.usernameState && <span>{error.usernameMessage}</span>}
         </div>
         <label htmlFor="password">Password</label>
         <div className="flex flex-col">
           <Input
             onBlur={onBlurPassword}
-            error={errorPassword.state}
+            error={error.passwordState}
             value={valuePassword}
             onChange={onChangePassword}
             type="password"
           />
-          {errorPassword.state && <span>{errorPassword.message}</span>}
+          {error.passwordState && <span>{error.passwordMessage}</span>}
         </div>
         <Button text="Register" type="submit" />
       </form>
@@ -79,17 +76,13 @@ type SignUpProps = {
   onBlurUsername: () => void;
   onBlurPassword: () => void;
   onBlurConfirmPassword: () => void;
-  errorUsername: {
-    state: boolean;
-    message: string;
-  };
-  errorPassword: {
-    state: boolean;
-    message: string;
-  };
-  errorConfirmPassword: {
-    state: boolean;
-    message: string;
+  error: {
+    usernameState: boolean;
+    usernameMessage: string;
+    passwordState: boolean;
+    passwordMessage: string;
+    confirmPasswordState: boolean;
+    confirmPasswordMessage: string;
   };
 };
 
@@ -104,9 +97,7 @@ export const SignUp = ({
   onBlurUsername,
   onBlurPassword,
   onBlurConfirmPassword,
-  errorUsername,
-  errorPassword,
-  errorConfirmPassword,
+  error,
 }: SignUpProps) => {
   return (
     <>
@@ -123,36 +114,36 @@ export const SignUp = ({
         </div>
         <div className="flex flex-col">
           <Input
-            error={errorUsername.state}
+            error={error.usernameState}
             onBlur={onBlurUsername}
             value={valueUser}
             onChange={onChangeUser}
             type="text"
           />
-          {errorUsername.state && <span>{errorUsername.message}</span>}
+          {error.usernameState && <span>{error.usernameMessage}</span>}
         </div>
         <label htmlFor="password">Password</label>
         <div className="flex flex-col">
           <Input
-            error={errorPassword.state}
+            error={error.passwordState}
             onBlur={onBlurPassword}
             value={valuePassword}
             onChange={onChangePassword}
             type="password"
           />
-          {errorPassword.state && <span>{errorPassword.message}</span>}
+          {error.passwordState && <span>{error.passwordMessage}</span>}
         </div>
         <label htmlFor="confirm password">Confirm Password</label>
         <div className="flex flex-col">
           <Input
-            error={errorConfirmPassword.state}
+            error={error.confirmPasswordState}
             onBlur={onBlurConfirmPassword}
             value={valueConfirm}
             onChange={onChangeConfirm}
             type="password"
           />
-          {errorConfirmPassword.state && (
-            <span>{errorConfirmPassword.message}</span>
+          {error.confirmPasswordState && (
+            <span>{error.confirmPasswordMessage}</span>
           )}
         </div>
         <Button text="Register" type="submit" />

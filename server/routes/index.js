@@ -14,6 +14,10 @@ router.post("/api/login/", async (req, res) => {
   }
 });
 
+router.post("/api/check-username", (req,res) => {
+  
+})
+
 router.post("/api/register/", async (req, res) => {
   try {
     const { username, password } = req.body;

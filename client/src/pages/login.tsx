@@ -4,13 +4,11 @@ import { LoginForm } from "../components/index";
 export const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [usernameError, setUsernameError] = useState({
-    state: false,
-    message: "",
-  });
-  const [passwordError, setPasswordError] = useState({
-    state: false,
-    message: "",
+  const [error, setError] = useState({
+    usernameState: false,
+    usernameMessage: "",
+    passwordState: false,
+    passwordMessage: "",
   });
 
   const onSubmit = async () => {
@@ -23,38 +21,38 @@ export const Login = () => {
 
   const onBlurPassword = () => {
     if (password === "") {
-      setPasswordError((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "password cannot be blank",
+        passwordState: true,
+        passwordMessage: "password cannot be blank",
       }));
     } else if (password.length < 8) {
-      setPasswordError((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "password is too short",
+        passwordState: true,
+        passwordMessage: "password is too short",
       }));
     } else {
-      setPasswordError((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: false,
-        message: "",
+        passwordState: false,
+        passwordMessage: "",
       }));
     }
   };
 
   const onBlurUsername = () => {
     if (username === "") {
-      setUsernameError((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: true,
-        message: "username cannot be blank",
+        usernameState: true,
+        usernameMessage: "username cannot be blank",
       }));
     } else {
-      setUsernameError((prev) => ({
+      setError((prev) => ({
         ...prev,
-        state: false,
-        message: "",
+        usernameState: false,
+        usernameMessage: "",
       }));
     }
   };
@@ -64,8 +62,7 @@ export const Login = () => {
       <LoginForm
         onBlurUsername={onBlurUsername}
         onBlurPassword={onBlurPassword}
-        errorUsername={usernameError}
-        errorPassword={passwordError}
+        error={error}
         onChangeUser={(e) => setUserName(e.target.value)}
         onChangePassword={(e) => setPassword(e.target.value)}
         valueUser={username}
