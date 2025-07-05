@@ -8,10 +8,8 @@ type LoginProps = {
   onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: {
-    usernameState: boolean;
-    usernameMessage: string;
-    passwordState: boolean;
-    passwordMessage: string;
+    username: string;
+    password: string;
   };
   onBlurUsername: () => void;
   onBlurPassword: () => void;
@@ -41,23 +39,23 @@ export const LoginForm = ({
         <div className="flex flex-col">
           <Input
             onBlur={onBlurUsername}
-            error={error.usernameState}
+            error={error.username}
             value={valueUser}
             onChange={onChangeUser}
             type="text"
           />
-          {error.usernameState && <span>{error.usernameMessage}</span>}
+          {error.username !== "" && <span>{error.username}</span>}
         </div>
         <label htmlFor="password">Password</label>
         <div className="flex flex-col">
           <Input
             onBlur={onBlurPassword}
-            error={error.passwordState}
+            error={error.password}
             value={valuePassword}
             onChange={onChangePassword}
             type="password"
           />
-          {error.passwordState && <span>{error.passwordMessage}</span>}
+          {error.password !== "" && <span>{error.password}</span>}
         </div>
         <Button text="Register" type="submit" />
       </form>
@@ -77,12 +75,9 @@ type SignUpProps = {
   onBlurPassword: () => void;
   onBlurConfirmPassword: () => void;
   error: {
-    usernameState: boolean;
-    usernameMessage: string;
-    passwordState: boolean;
-    passwordMessage: string;
-    confirmPasswordState: boolean;
-    confirmPasswordMessage: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
   };
 };
 
@@ -114,37 +109,35 @@ export const SignUp = ({
         </div>
         <div className="flex flex-col">
           <Input
-            error={error.usernameState}
+            error={error.username}
             onBlur={onBlurUsername}
             value={valueUser}
             onChange={onChangeUser}
             type="text"
           />
-          {error.usernameState && <span>{error.usernameMessage}</span>}
+          {error.username !== "" && <span>{error.username}</span>}
         </div>
         <label htmlFor="password">Password</label>
         <div className="flex flex-col">
           <Input
-            error={error.passwordState}
+            error={error.password}
             onBlur={onBlurPassword}
             value={valuePassword}
             onChange={onChangePassword}
             type="password"
           />
-          {error.passwordState && <span>{error.passwordMessage}</span>}
+          {error.password !== "" && <span>{error.password}</span>}
         </div>
         <label htmlFor="confirm password">Confirm Password</label>
         <div className="flex flex-col">
           <Input
-            error={error.confirmPasswordState}
+            error={error.confirmPassword}
             onBlur={onBlurConfirmPassword}
             value={valueConfirm}
             onChange={onChangeConfirm}
             type="password"
           />
-          {error.confirmPasswordState && (
-            <span>{error.confirmPasswordMessage}</span>
-          )}
+          {error.confirmPassword !== "" && <span>{error.confirmPassword}</span>}
         </div>
         <Button text="Register" type="submit" />
       </form>
@@ -169,7 +162,7 @@ type InputProps = {
   type: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: boolean;
+  error: string;
   onBlur: () => void;
 };
 
@@ -180,7 +173,7 @@ const Input = ({ type, onChange, value, error, onBlur }: InputProps) => {
         onBlur={onBlur}
         onChange={onChange}
         value={value}
-        className={`${error ? "outline-red-600" : "outline-black"} p-1 outline`}
+        className={`${error !== "" ? "outline-red-600" : "outline-black"} p-1 outline`}
         type={type}
       />
     </>

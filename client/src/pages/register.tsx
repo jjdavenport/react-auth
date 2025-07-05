@@ -6,12 +6,9 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState({
-    usernameState: false,
-    usernameMessage: "",
-    passwordState: false,
-    passwordMessage: "",
-    confirmPasswordState: false,
-    confirmPasswordMessage: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const onSubmit = async (
@@ -28,8 +25,7 @@ export const Register = () => {
       if (input === "") {
         setError((prev) => ({
           ...prev,
-          usernameState: true,
-          usernameMessage: "Username cannot be empty",
+          username: "Username cannot be empty",
         }));
       } else {
         setPassword("");
@@ -45,20 +41,17 @@ export const Register = () => {
     if (password === "") {
       setError((prev) => ({
         ...prev,
-        passwordState: true,
-        passwordMessage: "Password cannot be empty",
+        password: "Password cannot be empty",
       }));
     } else if (password.length < 8) {
       setError((prev) => ({
         ...prev,
-        passwordState: true,
-        passwordMessage: "Password is too short",
+        password: "Password is too short",
       }));
     } else {
       setError((prev) => ({
         ...prev,
-        passwordState: false,
-        passwordMessage: "",
+        password: "",
       }));
     }
   };
@@ -67,26 +60,22 @@ export const Register = () => {
     if (confirmPassword === "") {
       setError((prev) => ({
         ...prev,
-        confirmPasswordState: true,
-        confirmPasswordMessage: "Confirm password cannot be empty",
+        confirmPassword: "Confirm password cannot be empty",
       }));
     } else if (confirmPassword.length < 8) {
       setError((prev) => ({
         ...prev,
-        confirmPasswordState: true,
-        confirmPasswordMessage: "Password is too short",
+        confirmPassword: "Password is too short",
       }));
     } else if (password !== confirmPassword) {
       setError((prev) => ({
         ...prev,
-        confirmPasswordState: true,
-        confirmPasswordMessage: "Passwords must match",
+        confirmPassword: "Passwords must match",
       }));
     } else {
       setError((prev) => ({
         ...prev,
-        confirmPasswordState: false,
-        confirmPasswordMessage: "",
+        confirmPassword: "",
       }));
     }
   };
@@ -95,14 +84,12 @@ export const Register = () => {
     if (username === "") {
       setError((prev) => ({
         ...prev,
-        usernameState: true,
-        usernameMessage: "Username cannot be blank",
+        username: "Username cannot be blank",
       }));
     } else {
       setError((prev) => ({
         ...prev,
-        usernameState: false,
-        usernameMessage: "",
+        username: "",
       }));
     }
   };

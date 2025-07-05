@@ -5,10 +5,8 @@ export const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState({
-    usernameState: false,
-    usernameMessage: "",
-    passwordState: false,
-    passwordMessage: "",
+    username: "",
+    password: "",
   });
 
   const onSubmit = async () => {
@@ -23,20 +21,17 @@ export const Login = () => {
     if (password === "") {
       setError((prev) => ({
         ...prev,
-        passwordState: true,
-        passwordMessage: "password cannot be blank",
+        password: "password cannot be blank",
       }));
     } else if (password.length < 8) {
       setError((prev) => ({
         ...prev,
-        passwordState: true,
-        passwordMessage: "password is too short",
+        password: "password is too short",
       }));
     } else {
       setError((prev) => ({
         ...prev,
-        passwordState: false,
-        passwordMessage: "",
+        password: "",
       }));
     }
   };
@@ -45,14 +40,12 @@ export const Login = () => {
     if (username === "") {
       setError((prev) => ({
         ...prev,
-        usernameState: true,
-        usernameMessage: "username cannot be blank",
+        username: "username cannot be blank",
       }));
     } else {
       setError((prev) => ({
         ...prev,
-        usernameState: false,
-        usernameMessage: "",
+        username: "",
       }));
     }
   };
