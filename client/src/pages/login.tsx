@@ -2,8 +2,10 @@ import { useState } from "react";
 import { LoginForm } from "../components/index";
 
 export const Login = () => {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [input, setInput] = useState({
+    username: "",
+    password: "",
+  });
   const [error, setError] = useState({
     username: "",
     password: "",
@@ -13,17 +15,19 @@ export const Login = () => {
     try {
       await fetch("api/login");
     } catch {}
-    setUserName("");
-    setPassword("");
+    setInput({
+      username: "",
+      password: "",
+    });
   };
 
   const onBlurPassword = () => {
-    if (password === "") {
+    if (input.password === "") {
       setError((prev) => ({
         ...prev,
         password: "password cannot be blank",
       }));
-    } else if (password.length < 8) {
+    } else if (input.password.length < 8) {
       setError((prev) => ({
         ...prev,
         password: "password is too short",
@@ -37,7 +41,7 @@ export const Login = () => {
   };
 
   const onBlurUsername = () => {
-    if (username === "") {
+    if (input.username === "") {
       setError((prev) => ({
         ...prev,
         username: "username cannot be blank",
@@ -56,10 +60,14 @@ export const Login = () => {
         onBlurUsername={onBlurUsername}
         onBlurPassword={onBlurPassword}
         error={error}
-        onChangeUser={(e) => setUserName(e.target.value)}
-        onChangePassword={(e) => setPassword(e.target.value)}
-        valueUser={username}
-        valuePassword={password}
+        onChangeUser={(e) =>
+          setInput((prev) => ({ ...prev, username: e.target.value }))
+        }
+        onChangePassword={(e) =>
+          setInput((prev) => ({ ...prev, password: e.target.value }))
+        }
+        valueUser={input.username}
+        valuePassword={input.password}
         onSubmit={onSubmit}
       />
     </>

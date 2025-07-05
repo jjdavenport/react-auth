@@ -2,9 +2,11 @@ import { useState } from "react";
 import { SignUp } from "../components/index";
 
 export const Register = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [input, setInput] = useState({
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState({
     username: "",
     password: "",
@@ -20,7 +22,7 @@ export const Register = () => {
       await fetch("/api/register/", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ input }),
       });
       if (input === "") {
         setError((prev) => ({
@@ -28,9 +30,11 @@ export const Register = () => {
           username: "Username cannot be empty",
         }));
       } else {
-        setPassword("");
-        setConfirmPassword("");
-        setUsername("");
+        setInput({
+          username: "",
+          password: "",
+          confirmPassword: "",
+        });
       }
     } catch {
       console.log("error");
@@ -38,12 +42,12 @@ export const Register = () => {
   };
 
   const onBlurPassword = () => {
-    if (password === "") {
+    if (input.password === "") {
       setError((prev) => ({
         ...prev,
         password: "Password cannot be empty",
       }));
-    } else if (password.length < 8) {
+    } else if (input.password.length < 8) {
       setError((prev) => ({
         ...prev,
         password: "Password is too short",
@@ -57,17 +61,17 @@ export const Register = () => {
   };
 
   const onBlurConfirmPassword = () => {
-    if (confirmPassword === "") {
+    if (input.confirmPassword === "") {
       setError((prev) => ({
         ...prev,
         confirmPassword: "Confirm password cannot be empty",
       }));
-    } else if (confirmPassword.length < 8) {
+    } else if (input.confirmPassword.length < 8) {
       setError((prev) => ({
         ...prev,
         confirmPassword: "Password is too short",
       }));
-    } else if (password !== confirmPassword) {
+    } else if (input.password !== input.confirmPassword) {
       setError((prev) => ({
         ...prev,
         confirmPassword: "Passwords must match",
@@ -81,7 +85,7 @@ export const Register = () => {
   };
 
   const onBlurUsername = () => {
-    if (username === "") {
+    if (input.username === "") {
       setError((prev) => ({
         ...prev,
         username: "Username cannot be blank",
@@ -101,13 +105,19 @@ export const Register = () => {
         onBlurPassword={onBlurPassword}
         onBlurUsername={onBlurUsername}
         onBlurConfirmPassword={onBlurConfirmPassword}
-        onChangeUser={(e) => setUsername(e.target.value)}
-        onChangePassword={(e) => setPassword(e.target.value)}
-        onChangeConfirm={(e) => setConfirmPassword(e.target.value)}
-        valueConfirm={confirmPassword}
-        valuePassword={password}
-        valueUser={username}
-        onSubmit={(e) => onSubmit(e, username)}
+        onChangeUser={(e) =>
+          setInput((prev) => ({ ...prev, username: e.target.value }))
+        }
+        onChangePassword={(e) =>
+          setInput((prev) => ({ ...prev, password: e.target.value }))
+        }
+        onChangeConfirm={(e) =>
+          setInput((prev) => ({ ...prev, confirmPassword: e.target.value }))
+        }
+        valueConfirm={input.confirmPassword}
+        valuePassword={input.password}
+        valueUser={input.username}
+        onSubmit={(e) => onSubmit(e, input.username)}
       />
     </>
   );
