@@ -13,31 +13,55 @@ export const Register = () => {
     confirmPassword: "",
   });
 
-  const onSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    input: string,
-  ) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await fetch("/api/register/", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ input }),
-      });
-      if (input === "") {
-        setError((prev) => ({
-          ...prev,
-          username: "Username cannot be empty",
-        }));
-      } else {
+    if (input.username === "") {
+      setError((prev) => ({ ...prev, username: "username cannot be blank" }));
+    }
+    if (input.password === "") {
+      setError((prev) => ({ ...prev, password: "password cannot be blank" }));
+    } else if (input.password.length < 8) {
+      setError((prev) => ({ ...prev, password: "Password is too short" }));
+    }
+    if (input.confirmPassword === "") {
+      setError((prev) => ({
+        ...prev,
+        confirmPassword: "Password cannot be blank",
+      }));
+    } else if (input.confirmPassword.length < 8) {
+      setError((prev) => ({
+        ...prev,
+        confirmPassword: "password is too short",
+      }));
+    }
+    if (input.password !== input.confirmPassword) {
+      setError((prev) => ({
+        ...prev,
+        password: "Passwords must match",
+        confirmPassword: "Passwords must match",
+      }));
+    } else {
+      try {
+        await fetch("/api/register/", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            username: input.username,
+            password: input.password,
+          }),
+        });
         setInput({
           username: "",
           password: "",
           confirmPassword: "",
         });
+      } catch {
+        setError({
+          username: "sever error",
+          password: "server error",
+          confirmPassword: "server error",
+        });
       }
-    } catch {
-      console.log("error");
     }
   };
 
@@ -117,7 +141,7 @@ export const Register = () => {
         valueConfirm={input.confirmPassword}
         valuePassword={input.password}
         valueUser={input.username}
-        onSubmit={(e) => onSubmit(e, input.username)}
+        onSubmit={onSubmit}
       />
     </>
   );
