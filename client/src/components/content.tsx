@@ -65,9 +65,11 @@ export const LoginForm = ({
 
 type SignUpProps = {
   onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
-  valueConfirm: string;
-  valuePassword: string;
-  valueUser: string;
+  input: {
+    username: string;
+    password: string;
+    confirmPassword: string;
+  };
   onChangeConfirm: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -83,9 +85,7 @@ type SignUpProps = {
 
 export const SignUp = ({
   onSubmit,
-  valueConfirm,
-  valuePassword,
-  valueUser,
+  input,
   onChangeConfirm,
   onChangePassword,
   onChangeUser,
@@ -111,7 +111,7 @@ export const SignUp = ({
           <Input
             error={error.username}
             onBlur={onBlurUsername}
-            value={valueUser}
+            value={input.username}
             onChange={onChangeUser}
             type="text"
           />
@@ -122,7 +122,7 @@ export const SignUp = ({
           <Input
             error={error.password}
             onBlur={onBlurPassword}
-            value={valuePassword}
+            value={input.password}
             onChange={onChangePassword}
             type="password"
           />
@@ -133,7 +133,7 @@ export const SignUp = ({
           <Input
             error={error.confirmPassword}
             onBlur={onBlurConfirmPassword}
-            value={valueConfirm}
+            value={input.confirmPassword}
             onChange={onChangeConfirm}
             type="password"
           />
@@ -153,7 +153,9 @@ type ButtonProps = {
 const Button = ({ text, type }: ButtonProps) => {
   return (
     <>
-      <button type={type}>{text}</button>
+      <button className="cursor-pointer" type={type}>
+        {text}
+      </button>
     </>
   );
 };

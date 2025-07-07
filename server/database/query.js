@@ -7,9 +7,12 @@ const addAuth = async (username, password) => {
   ]);
 };
 
-const checkAuth = async () => {
-  const { rows } = await pool.query("");
-  return rows;
+const checkUser = async (username) => {
+  const { rows } = await pool.query(
+    "SELECT 1 FROM users WHERE username = $1 LIMIT 1",
+    [username]
+  );
+  return rows.length > 0;
 };
 
-module.exports = { addAuth, checkAuth };
+module.exports = { addAuth, checkUser };

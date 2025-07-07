@@ -13,55 +13,71 @@ export const Register = () => {
     confirmPassword: "",
   });
 
+  type Errors = {
+    username?: string;
+    password?: string;
+    confirmPassword?: string;
+  };
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const response = await fetch("/api/check-username", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ username: input.username }),
+    });
+    const { available } = await response.json();
+
+    const errors: Errors = {};
+
     if (input.username === "") {
-      setError((prev) => ({ ...prev, username: "username cannot be blank" }));
+      errors.username = "username cannot be blank";
+    } else if (!available) {
+      errors.username = "username is taken";
     }
+
     if (input.password === "") {
-      setError((prev) => ({ ...prev, password: "password cannot be blank" }));
+      errors.password = "password cannot be blank";
     } else if (input.password.length < 8) {
-      setError((prev) => ({ ...prev, password: "Password is too short" }));
+      errors.password = "Password is too short";
     }
+
     if (input.confirmPassword === "") {
-      setError((prev) => ({
-        ...prev,
-        confirmPassword: "Password cannot be blank",
-      }));
+      errors.confirmPassword = "Password cannot be blank";
     } else if (input.confirmPassword.length < 8) {
-      setError((prev) => ({
-        ...prev,
-        confirmPassword: "password is too short",
-      }));
+      errors.confirmPassword = "password is too short";
     }
+
     if (input.password !== input.confirmPassword) {
-      setError((prev) => ({
-        ...prev,
-        password: "Passwords must match",
-        confirmPassword: "Passwords must match",
-      }));
-    } else {
-      try {
-        await fetch("/api/register/", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            username: input.username,
-            password: input.password,
-          }),
-        });
-        setInput({
-          username: "",
-          password: "",
-          confirmPassword: "",
-        });
-      } catch {
-        setError({
-          username: "sever error",
-          password: "server error",
-          confirmPassword: "server error",
-        });
-      }
+      errors.password = "Passwords must match";
+      errors.confirmPassword = "Passwords must match";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setError((prev) => ({ ...prev, ...errors }));
+      return;
+    }
+
+    try {
+      await fetch("/api/register/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          username: input.username,
+          password: input.password,
+        }),
+      });
+      setInput({
+        username: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch {
+      setError({
+        username: "sever error",
+        password: "server error",
+        confirmPassword: "server error",
+      });
     }
   };
 
@@ -108,12 +124,20 @@ export const Register = () => {
     }
   };
 
-  const onBlurUsername = () => {
+  const onBlurUsername = async () => {
+    const response = await fetch("/api/check-username", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ username: input.username }),
+    });
+    const { available } = await response.json();
     if (input.username === "") {
       setError((prev) => ({
         ...prev,
         username: "Username cannot be blank",
       }));
+    } else if (!available) {
+      setError((prev) => ({ ...prev, username: "username is taken" }));
     } else {
       setError((prev) => ({
         ...prev,
@@ -125,6 +149,7 @@ export const Register = () => {
   return (
     <>
       <SignUp
+        input={input}
         error={error}
         onBlurPassword={onBlurPassword}
         onBlurUsername={onBlurUsername}
@@ -138,9 +163,6 @@ export const Register = () => {
         onChangeConfirm={(e) =>
           setInput((prev) => ({ ...prev, confirmPassword: e.target.value }))
         }
-        valueConfirm={input.confirmPassword}
-        valuePassword={input.password}
-        valueUser={input.username}
         onSubmit={onSubmit}
       />
     </>
