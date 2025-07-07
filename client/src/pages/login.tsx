@@ -11,14 +11,52 @@ export const Login = () => {
     password: "",
   });
 
-  const onSubmit = async () => {
+  type Errors = {
+    username?: string;
+    password?: string;
+  };
+
+  const onSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await fetch("/api/login/check-username", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ username: input.username }),
+    });
+
+    const { exists } = await response.json();
+
+    const errors: Errors = {};
+
+    if (input.username === "") {
+      errors.username = "username cannot be blank";
+    } else if (!exists) {
+      errors.username = "username does not exist";
+    }
+
+    if (input.password === "") {
+      errors.password = "Password cannot be blank";
+    } else if (input.password.length < 8) {
+      errors.password = "Password is too short";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setError((prev) => ({ ...prev, ...errors }));
+      return;
+    }
+
     try {
       await fetch("api/login");
-    } catch {}
-    setInput({
-      username: "",
-      password: "",
-    });
+      setInput({
+        username: "",
+        password: "",
+      });
+    } catch {
+      setError({
+        username: "server error",
+        password: "server error",
+      });
+    }
   };
 
   const onBlurPassword = () => {
@@ -40,12 +78,22 @@ export const Login = () => {
     }
   };
 
-  const onBlurUsername = () => {
+  const onBlurUsername = async () => {
+    const response = await fetch("/api/login/check-username", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ username: input.username }),
+    });
+
+    const { exists } = await response.json();
+
     if (input.username === "") {
       setError((prev) => ({
         ...prev,
         username: "username cannot be blank",
       }));
+    } else if (!exists) {
+      setError((prev) => ({ ...prev, username: "username does not exist" }));
     } else {
       setError((prev) => ({
         ...prev,
@@ -66,8 +114,7 @@ export const Login = () => {
         onChangePassword={(e) =>
           setInput((prev) => ({ ...prev, password: e.target.value }))
         }
-        valueUser={input.username}
-        valuePassword={input.password}
+        input={input}
         onSubmit={onSubmit}
       />
     </>

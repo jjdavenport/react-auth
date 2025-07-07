@@ -3,8 +3,10 @@ import { Link } from "react-router";
 
 type LoginProps = {
   onSubmit: (e: React.ChangeEvent<HTMLFormElement>) => void;
-  valueUser: string;
-  valuePassword: string;
+  input: {
+    username: string;
+    password: string;
+  };
   onChangeUser: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangePassword: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error: {
@@ -16,10 +18,9 @@ type LoginProps = {
 };
 
 export const LoginForm = ({
+  input,
   onSubmit,
-  valueUser,
   onChangeUser,
-  valuePassword,
   onChangePassword,
   error,
   onBlurPassword,
@@ -40,7 +41,7 @@ export const LoginForm = ({
           <Input
             onBlur={onBlurUsername}
             error={error.username}
-            value={valueUser}
+            value={input.username}
             onChange={onChangeUser}
             type="text"
           />
@@ -51,13 +52,13 @@ export const LoginForm = ({
           <Input
             onBlur={onBlurPassword}
             error={error.password}
-            value={valuePassword}
+            value={input.password}
             onChange={onChangePassword}
             type="password"
           />
           {error.password !== "" && <span>{error.password}</span>}
         </div>
-        <Button text="Register" type="submit" />
+        <Button text="Login" type="submit" />
       </form>
     </>
   );

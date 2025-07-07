@@ -19,10 +19,16 @@ router.post("/api/login/", async (req, res) => {
   }
 });
 
-router.post("/api/check-username", async (req, res) => {
+router.post("/api/register/check-username", async (req, res) => {
   const { username } = req.body;
   const userExists = await checkUser(username);
   res.json({ available: !userExists });
+});
+
+router.post("/api/login/check-username", async (req, res) => {
+  const { username } = req.body;
+  const userExists = await checkUser(username);
+  res.json({ exists: userExists });
 });
 
 router.post("/api/register/", async (req, res) => {
