@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { LoginForm } from "../components/index";
+import { useNavigate } from "react-router";
 
 export const Login = () => {
   const [input, setInput] = useState({
@@ -10,6 +11,7 @@ export const Login = () => {
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   type Errors = {
     username?: string;
@@ -18,9 +20,10 @@ export const Login = () => {
 
   const onSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("/api/login/check-username", {
+    const response = await fetch("/api/login/check-username/", {
       method: "POST",
       headers: { "content-type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ username: input.username }),
     });
 
@@ -46,11 +49,27 @@ export const Login = () => {
     }
 
     try {
-      await fetch("api/login");
-      setInput({
-        username: "",
-        password: "",
+      const response = await fetch("/api/login/", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          username: input.username,
+          password: input.password,
+        }),
       });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError((prev) => ({ ...prev, password: "incorrect password" }));
+        }
+      } else {
+        setInput({
+          username: "",
+          password: "",
+        });
+        navigate("/home/");
+      }
     } catch {
       setError({
         username: "server error",

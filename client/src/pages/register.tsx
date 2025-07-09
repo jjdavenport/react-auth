@@ -21,7 +21,7 @@ export const Register = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("/api/register/check-username", {
+    const response = await fetch("/api/register/check-username/", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ username: input.username }),
@@ -65,6 +65,7 @@ export const Register = () => {
         body: JSON.stringify({
           username: input.username,
           password: input.password,
+          confirmPassword: input.confirmPassword,
         }),
       });
       setInput({
