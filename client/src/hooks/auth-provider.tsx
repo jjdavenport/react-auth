@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-type Prop = {
-  authenticated: () => void;
-};
-
-const useAuth = ({ authenticated }: Prop) => {
+const useAuth = (authenticated: boolean) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!authenticated) {
+    if (authenticated === false) {
       navigate("/login/");
     }
   }, [authenticated, navigate]);

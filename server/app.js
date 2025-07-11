@@ -19,7 +19,7 @@ app.use("/api/register/", registerRouter);
 
 app.use(authenticate);
 
-app.use("/api/", indexRouter);
+app.use("/api/authenticated/", indexRouter);
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}`);
