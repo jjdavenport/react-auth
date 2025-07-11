@@ -7,7 +7,7 @@ import App from "./App.tsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/react-auth/",
     element: <App />,
     children: [
       {

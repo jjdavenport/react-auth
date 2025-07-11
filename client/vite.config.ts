@@ -7,9 +7,10 @@ dotenv.config();
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: "/react-auth/",
   server: {
     proxy: {
-      "/api": `http://localhost:${process.env.PORT}`,
+      "/api": "https://react-auth-hlgr.onrender.com/",
     },
   },
 });

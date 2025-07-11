@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
-const useAuth = (authenticated: boolean) => {
+const useAuth = (authenticated: boolean | null) => {
   const navigate = useNavigate();
 
   useEffect(() => {

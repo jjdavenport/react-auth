@@ -21,11 +21,14 @@ export const Register = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("/api/register/check-username/", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ username: input.username }),
-    });
+    const response = await fetch(
+      "https://react-auth-hlgr.onrender.com/api/register/check-username/",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ username: input.username }),
+      },
+    );
     const { available } = await response.json();
 
     const errors: Errors = {};
@@ -59,7 +62,7 @@ export const Register = () => {
     }
 
     try {
-      await fetch("/api/register/", {
+      await fetch("https://react-auth-hlgr.onrender.com/api/register/", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -126,11 +129,14 @@ export const Register = () => {
   };
 
   const onBlurUsername = async () => {
-    const response = await fetch("/api/register/check-username", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ username: input.username }),
-    });
+    const response = await fetch(
+      "https://react-auth-hlgr.onrender.com/api/register/check-username",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ username: input.username }),
+      },
+    );
     const { available } = await response.json();
     if (input.username === "") {
       setError((prev) => ({

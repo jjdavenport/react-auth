@@ -20,12 +20,15 @@ export const Login = () => {
 
   const onSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await fetch("/api/login/check-username/", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ username: input.username }),
-    });
+    const response = await fetch(
+      "https://react-auth-hlgr.onrender.com/api/login/check-username/",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ username: input.username }),
+      },
+    );
 
     const { exists } = await response.json();
 
@@ -49,15 +52,18 @@ export const Login = () => {
     }
 
     try {
-      const response = await fetch("/api/login/", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          username: input.username,
-          password: input.password,
-        }),
-      });
+      const response = await fetch(
+        "https://react-auth-hlgr.onrender.com/api/login/",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            username: input.username,
+            password: input.password,
+          }),
+        },
+      );
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -98,11 +104,14 @@ export const Login = () => {
   };
 
   const onBlurUsername = async () => {
-    const response = await fetch("/api/login/check-username", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ username: input.username }),
-    });
+    const response = await fetch(
+      "https://react-auth-hlgr.onrender.com/api/login/check-username",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ username: input.username }),
+      },
+    );
 
     const { exists } = await response.json();
 

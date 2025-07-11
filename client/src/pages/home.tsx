@@ -3,14 +3,17 @@ import useAuth from "../hooks/auth-provider";
 import { useEffect, useState } from "react";
 
 export const Home = () => {
-  const [authenticated, setAuthenticated] = useState(null);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
   const authenticate = async () => {
     try {
-      const response = await fetch("/api/login/status/", {
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://react-auth-hlgr.onrender.com/api/login/status/",
+        {
+          credentials: "include",
+        },
+      );
       const result = await response.json();
       setAuthenticated(result.loggedIn);
     } catch {
@@ -26,10 +29,13 @@ export const Home = () => {
 
   const logout = async () => {
     try {
-      const response = await fetch("/api/authenticated/logout/", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-      });
+      const response = await fetch(
+        "https://react-auth-hlgr.onrender.com/api/authenticated/logout/",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+        },
+      );
       if (response.ok) {
         navigate("/login/");
       } else {
