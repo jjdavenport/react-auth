@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch app.js",
-    "db": "node database/initDb.js"
+    "db": "node database/initDb.js",
+    "build": "npm install",
+    "start": "concurrently \"node database/initDb.js\" \"node app.js\""
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "concurrently": "^9.2.0",
     "dotenv": "^17.0.1",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
