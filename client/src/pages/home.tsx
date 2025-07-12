@@ -1,13 +1,20 @@
 import { useNavigate, useOutletContext } from "react-router";
 import { useEffect } from "react";
 
+type OutletType = {
+  authenticated: boolean;
+  logout: () => void;
+};
+
 export const Home = () => {
-  const { authenticated, logout } = useOutletContext();
+  const { authenticated, logout } = useOutletContext<OutletType>();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (authenticated === false) {
       navigate("/login/");
+    } else {
+      navigate("/home/");
     }
   }, [authenticated, navigate]);
 
