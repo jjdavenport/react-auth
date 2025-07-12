@@ -35,7 +35,7 @@ export const LoginForm = ({
       >
         <div className="flex justify-between">
           <label htmlFor="username">Username</label>
-          <Link to="/register">Sign Up</Link>
+          <Link to="/register/">Sign Up</Link>
         </div>
         <div className="flex flex-col">
           <Input

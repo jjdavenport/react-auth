@@ -1,53 +1,20 @@
-import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router";
+import { useEffect } from "react";
+
+type OutletType = {
+  authenticated: boolean;
+  logout: () => void;
+};
 
 export const Home = () => {
-  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const { authenticated, logout } = useOutletContext<OutletType>();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const authenticate = async () => {
-      try {
-        const response = await fetch(
-          "https://react-auth-hlgr.onrender.com/api/login/status/",
-          {
-            credentials: "include",
-          },
-        );
-        const result = await response.json();
-        setAuthenticated(result.loggedIn);
-      } catch {
-        setAuthenticated(false);
-      }
-    };
-    authenticate();
-  }, []);
-
-  useEffect(() => {
     if (authenticated === false) {
-      navigate("login");
+      navigate("/login/");
     }
   }, [authenticated, navigate]);
-
-  const logout = async () => {
-    try {
-      const response = await fetch(
-        "https://react-auth-hlgr.onrender.com/api/authenticated/logout/",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          credentials: "include",
-        },
-      );
-      if (response.ok) {
-        navigate("login");
-      } else {
-        console.log("failed");
-      }
-    } catch {
-      console.log("error");
-    }
-  };
 
   return (
     <>
