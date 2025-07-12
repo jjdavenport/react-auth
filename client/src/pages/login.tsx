@@ -74,7 +74,7 @@ export const Login = () => {
           username: "",
           password: "",
         });
-        navigate("/home");
+        navigate("home");
       }
     } catch {
       setError({

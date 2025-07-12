@@ -1,31 +1,33 @@
 import { useNavigate } from "react-router";
-import useAuth from "../hooks/auth-provider";
 import { useEffect, useState } from "react";
 
 export const Home = () => {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const navigate = useNavigate();
 
-  const authenticate = async () => {
-    try {
-      const response = await fetch(
-        "https://react-auth-hlgr.onrender.com/api/login/status/",
-        {
-          credentials: "include",
-        },
-      );
-      const result = await response.json();
-      setAuthenticated(result.loggedIn);
-    } catch {
-      setAuthenticated(false);
-    }
-  };
-
   useEffect(() => {
+    const authenticate = async () => {
+      try {
+        const response = await fetch(
+          "https://react-auth-hlgr.onrender.com/api/login/status/",
+          {
+            credentials: "include",
+          },
+        );
+        const result = await response.json();
+        setAuthenticated(result.loggedIn);
+      } catch {
+        setAuthenticated(false);
+      }
+    };
     authenticate();
   }, []);
 
-  useAuth(authenticated);
+  useEffect(() => {
+    if (authenticated === false) {
+      navigate("login");
+    }
+  }, [authenticated, navigate]);
 
   const logout = async () => {
     try {
@@ -34,10 +36,11 @@ export const Home = () => {
         {
           method: "POST",
           headers: { "content-type": "application/json" },
+          credentials: "include",
         },
       );
       if (response.ok) {
-        navigate("/react-auth/login/");
+        navigate("login");
       } else {
         console.log("failed");
       }

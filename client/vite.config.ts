@@ -8,9 +8,4 @@ dotenv.config();
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: "/react-auth/",
-  server: {
-    proxy: {
-      "/api": "https://react-auth-hlgr.onrender.com/",
-    },
-  },
 });
