@@ -37,7 +37,7 @@ export const Home = () => {
         },
       );
       if (response.ok) {
-        navigate("/login/");
+        navigate("/react-auth/login/");
       } else {
         console.log("failed");
       }

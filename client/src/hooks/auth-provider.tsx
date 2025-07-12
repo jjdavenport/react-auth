@@ -6,7 +6,7 @@ const useAuth = (authenticated: boolean | null) => {
 
   useEffect(() => {
     if (authenticated === false) {
-      navigate("/login/");
+      navigate("login");
     }
   }, [authenticated, navigate]);
 

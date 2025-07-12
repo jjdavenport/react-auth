@@ -11,16 +11,28 @@ require("./passport-config");
 
 const PORT = process.env.PORT;
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
-app.use(passport.session());
-app.use(express.json());
-
 app.use(
   cors({
     origin: "https://jjdavenport.github.io",
     credentials: true,
   })
 );
+
+app.use(
+  session({
+    secret: "cats",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "none",
+      secure: true,
+    },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(express.json());
 
 app.use("/api/login/", loginRouter);
 app.use("/api/register/", registerRouter);
