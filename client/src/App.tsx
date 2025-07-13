@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 
 function App() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +21,8 @@ function App() {
         setAuthenticated(result.loggedIn);
       } catch {
         setAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
     };
     authenticate();
@@ -35,7 +38,7 @@ function App() {
         },
       );
       if (response.ok) {
-        navigate("login");
+        navigate("/login/");
       } else {
         console.log("failed");
       }
@@ -43,6 +46,8 @@ function App() {
       console.log("error");
     }
   };
+
+  if (loading) return <span>Waiting for Server...</span>;
 
   return (
     <>

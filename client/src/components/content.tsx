@@ -204,3 +204,9 @@ export const Container = ({ children }: Prop) => {
     </>
   );
 };
+
+export type OutletType = {
+  setAuthenticated: (auth: boolean) => void;
+  authenticated: boolean;
+  logout: () => void;
+};

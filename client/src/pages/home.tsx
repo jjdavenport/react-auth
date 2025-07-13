@@ -1,10 +1,6 @@
 import { useNavigate, useOutletContext } from "react-router";
 import { useEffect } from "react";
-
-type OutletType = {
-  authenticated: boolean;
-  logout: () => void;
-};
+import type { OutletType } from "../components/content";
 
 export const Home = () => {
   const { authenticated, logout } = useOutletContext<OutletType>();
