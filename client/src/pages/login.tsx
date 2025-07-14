@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { LoginForm } from "../components/index";
-import { useNavigate, useOutletContext } from "react-router";
-import type { OutletType } from "../components/content";
+import { useNavigate } from "react-router";
 
 export const Login = () => {
   const [input, setInput] = useState({
@@ -13,7 +12,6 @@ export const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const { setAuthenticated } = useOutletContext<OutletType>();
 
   type Errors = {
     username?: string;
@@ -76,7 +74,6 @@ export const Login = () => {
           username: "",
           password: "",
         });
-        setAuthenticated(true);
         navigate("/home/");
       }
     } catch {

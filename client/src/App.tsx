@@ -53,7 +53,7 @@ function App() {
     <>
       <Wrapper>
         <Container>
-          <Outlet context={{ authenticated, setAuthenticated, logout }} />
+          <Outlet context={{ authenticated, logout }} />
         </Container>
       </Wrapper>
     </>
