@@ -13,7 +13,7 @@ const PORT = process.env.PORT;
 
 app.use(
   cors({
-    origin: "https://jjdavenport.github.io",
+    origin: "https://react-auth-1-b2wq.onrender.com",
     credentials: true,
   })
 );
