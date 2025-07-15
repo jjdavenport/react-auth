@@ -11,6 +11,8 @@ require("./passport-config");
 
 const PORT = process.env.PORT;
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: "https://react-auth-1-b2wq.onrender.com",

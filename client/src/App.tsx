@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { Wrapper, Container } from "./components/index";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
@@ -7,26 +7,32 @@ function App() {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const authenticate = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           "https://react-auth-hlgr.onrender.com/api/login/status/",
-          {
-            credentials: "include",
-          },
+          { credentials: "include" },
         );
         const result = await response.json();
         setAuthenticated(result.loggedIn);
+        if (!result.loggedIn && location.pathname !== "/login/") {
+          navigate("/login/");
+        }
       } catch {
         setAuthenticated(false);
+        if (location.pathname !== "/login/") {
+          navigate("/login/");
+        }
       } finally {
         setLoading(false);
       }
     };
     authenticate();
-  }, []);
+  }, [location.pathname, navigate]);
 
   const logout = async () => {
     try {
@@ -34,6 +40,7 @@ function App() {
         "https://react-auth-hlgr.onrender.com/api/authenticated/logout/",
         {
           method: "POST",
+          credentials: "include",
           headers: { "content-type": "application/json" },
         },
       );
